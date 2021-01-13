@@ -107,7 +107,6 @@ workflows:
   build-and-deploy:
     jobs:
       - build
-<<<<<<< HEAD
       - linting:
           requires:
             - build
@@ -120,11 +119,6 @@ workflows:
       - deploy-to-aws-s3:
           requires:
             - linting
-=======
-      - deploy-to-aws-s3:
-          requires:
-            - build
->>>>>>> e9ed84f14d9aa51ed86754339775e1b58787a8ed
           filters:
             branches:
               only:
