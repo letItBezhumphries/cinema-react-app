@@ -165,7 +165,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Author*:\n${CIRCLE_BUILD_AUTHOR}"
+                      "text": "*Author*:\n${CIRCLE_PROJECT_USERNAME}"
                     }
                   ]
                 },
