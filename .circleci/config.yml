@@ -191,7 +191,7 @@ workflows:
       - build
       - notify-via-slack:
           requires:
-            - build
+            - test
           filters:
             branches:
               only:
