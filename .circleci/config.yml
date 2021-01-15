@@ -53,7 +53,6 @@ aliases:
         cd build
         zip ../build.zip -r * .[^.]*
         echo "build successful!"
-
 jobs:
   build:
     executor: app-executor
@@ -65,7 +64,8 @@ jobs:
       - *save-cache
       - run:
           name: Copy Infrastructure Folder
-          command: cp -r infrastructure artifacts/infrastructure
+          command: |
+            cp -r infrastructure artifacts/infrastructure
       - persist_to_workspace:
           root: ./
           paths:
@@ -95,13 +95,11 @@ jobs:
     executor: terraform-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: ./
       - *show-current-branch-name
       - run:
           name: Terraform Validate and Format
           command: |
-            cd artifacts/infrastructure
+            cd infrastructure/
             terraform init -backend=false
             terraform validate
             terraform fmt -check
@@ -246,13 +244,13 @@ jobs:
     executor: terraform-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: ./
+      # - attach_workspace:
+      #     at: ./
       - *show-current-branch-name
       - run:
           name: Terraform Destroy
           command: |
-            cd artifacts/infrastructure/
+            cd infrastructure/
             terraform init
             terraform workspace select ${CIRCLE_BRANCH} || terraform workspace new ${CIRCLE_BRANCH}
             terraform destroy --auto-approve

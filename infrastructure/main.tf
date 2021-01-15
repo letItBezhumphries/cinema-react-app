@@ -13,7 +13,7 @@ terraform {
 }
 
 # locals to attach to resources
-# workspace will be either - dev, staging, prod
+# workspace will be either - develop, staging, master
 locals {
   prefix = "${var.prefix}-${terraform.workspace}"
   common_tags = {
