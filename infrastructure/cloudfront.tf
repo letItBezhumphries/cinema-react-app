@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "cinema_s3_distribution" {
 
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods          = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "default-origin"
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "cinema_s3_distribution" {
   restrictions {
     geo_restriction {
       restriction_type = "none"
-      //if you wanted to restrict it to US
+      # if you wanted to restrict it to US
       # restriction_type = "whitelist"
       # locations = [ "US" ]
     }
