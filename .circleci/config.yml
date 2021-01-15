@@ -95,11 +95,13 @@ jobs:
     executor: terraform-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: ./
       - *show-current-branch-name
       - run:
           name: Terraform Validate and Format
           command: |
-            cd infrastructure/
+            cd artifacts/infrastructure
             terraform init -backend=false
             terraform validate
             terraform fmt -check
