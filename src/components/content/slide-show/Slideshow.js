@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import './Slideshow.scss';
 
-const Slideshow = (props) => {
-  const { images, auto, showArrows } = props;
+const Slideshow = ({ images, auto, showArrows }) => {
   const [state, setState] = useState({
     slideShow: images[0],
     slideIndex: 0
@@ -16,6 +14,11 @@ const Slideshow = (props) => {
   const [sliderInterval, setSliderInterval] = useState(0);
 
   useEffect(() => {
+    setState({
+      ...state,
+      slideIndex: 0,
+      slideShow: images[0]
+    });
     if (auto) {
       const timeInterval = setInterval(() => {
         autoMoveSlide();
@@ -28,7 +31,7 @@ const Slideshow = (props) => {
       };
     }
     // eslint-disable-next-line
-  }, []);
+  }, [images]);
 
   const autoMoveSlide = () => {
     let lastIndex = 0;

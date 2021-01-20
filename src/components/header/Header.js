@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/cinema-logo.svg';
 import './Header.scss';
+import { connect } from 'react-redux';
+import { getMovies } from '../../redux/actions/movies';
+import PropTypes from 'prop-types';
 
 const HEADER_LIST = [
   {
@@ -29,7 +32,8 @@ const HEADER_LIST = [
   }
 ];
 
-const Header = () => {
+const Header = (props) => {
+  const { getMovies } = props;
   let [navClass, setNavClass] = useState(false);
   let [menuClass, setMenuClass] = useState(false);
 
@@ -45,6 +49,11 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    getMovies('now_playing', 1);
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <>
       <div className="header-nav-wrapper">
@@ -52,7 +61,6 @@ const Header = () => {
         <div className="header-navbar">
           <div className="header-image">
             <img src={logo} alt="" />
-            {/* Cinema App */}
           </div>
           <div className={`${menuClass ? 'header-menu-toggle is-active' : 'header-menu-toggle'}`} id="header-mobile-menu" onClick={() => toggelMenu()}>
             <span className="bar"></span>
@@ -77,4 +85,17 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  getMovies: PropTypes.func.isRequired
+  // list: PropTypes.array.isRequired,
+  // page: PropTypes.number,
+  // totalPages: PropTypes.number
+};
+
+const mapStateToProps = (state) => ({
+  list: state.movies.list
+  // page: state.movies.page,
+  // totalPages: state.movies.totalPages
+});
+
+export default connect(mapStateToProps, { getMovies })(Header);
