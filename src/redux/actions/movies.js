@@ -27,6 +27,11 @@ export const loadMoreMovies = (type, pageNumber) => async (dispatch) => {
   }
 };
 
+export const setResponsePageNumber = (page, totalPages) => async (dispatch) => {
+  const payload = { page, totalPages };
+  dispatchMethod(RESPONSE_PAGE, payload, dispatch);
+};
+
 const dispatchMethod = (type, payload, dispatch) => {
   dispatch({ type, payload });
 };
