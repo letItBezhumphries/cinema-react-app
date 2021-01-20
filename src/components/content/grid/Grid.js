@@ -15,7 +15,7 @@ const Grid = (props) => {
                 <button className="grid-cell-button">Read More</button>
               </div>
               <div className="grid-detail">
-                <span className="grid-detail-title">Genndy Tartakovskys PrimalGenndy Tartakovskys PrimalGenndy Tartakovskys PrimalGenndy Tartakovskys PrimalGenndy Tartakovskys Primal</span>
+                <span className="grid-detail-title">Genndy Tartakovskys Primal</span>
                 <div className="grid-detail-rating">
                   <Rating rating={image.rating} totalStars={10} />
                   &nbsp;&nbsp;
