@@ -6,34 +6,20 @@ import Slideshow from '../slide-show/Slideshow';
 import Paginate from '../paginate/Paginate';
 import Grid from '../grid/Grid';
 import { IMAGE_URL } from '../../../services/movies.service';
+import { getMovies, setResponsePageNumber } from '../../../redux/actions/movies';
 
 const MainContent = (props) => {
-  const { list } = props;
-  const imagesArray = [
-    {
-      url: 'https://images.pexels.com/photos/4173624/pexels-photo-4173624.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      rating: 7.5
-    },
-    {
-      url: 'https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      rating: 6.5
-    },
-    {
-      url: 'https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      rating: 2.5
-    },
-    {
-      url: 'https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-      rating: 8.5
-    },
-    {
-      url: 'https://images.pexels.com/photos/4245826/pexels-photo-4245826.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-      rating: 9.5
-    }
-  ];
-  const [currentPage, setCurrentPage] = useState(1);
+  const { list, movieType, totalPages, page, getMovies, setResponsePageNumber } = props;
+  const [currentPage, setCurrentPage] = useState(page);
   const [slides, setSlides] = useState([]);
   const randomMovies = list.sort(() => Math.random() - Math.random()).slice(0, 4);
+
+  const HEADER_TYPE = {
+    now_playing: 'Now Playing',
+    popular: 'Popular',
+    top_rated: 'Top Rated',
+    upcoming: 'Upcoming'
+  };
 
   useEffect(() => {
     if (randomMovies.length) {
@@ -60,34 +46,51 @@ const MainContent = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(page);
+    // eslint-disable-next-line
+  }, [page, totalPages]);
+
   const paginate = (type) => {
+    let pageNumber = currentPage;
     if (type === 'prev' && currentPage >= 1) {
-      setCurrentPage((prev) => prev - 1);
+      pageNumber -= 1;
     } else {
-      setCurrentPage((prev) => prev + 1);
+      pageNumber += 1;
     }
+    setCurrentPage(pageNumber);
+    setResponsePageNumber(pageNumber, totalPages);
+    getMovies(movieType, pageNumber);
   };
 
   return (
     <div className="main-content">
       <Slideshow images={slides} auto={true} showArrows={true} />
       <div className="grid-movie-title">
-        <div className="movieType">Now Playing</div>
+        <div className="movieType">{HEADER_TYPE[movieType]}</div>
         <div className="paginate">
-          <Paginate paginate={paginate} currentPage={currentPage} totalPages={10} />
+          <Paginate paginate={paginate} currentPage={currentPage} totalPages={totalPages} />
         </div>
       </div>
-      <Grid images={imagesArray} />
+      <Grid />
     </div>
   );
 };
 
 MainContent.propTypes = {
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  movieType: PropTypes.string.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  getMovies: PropTypes.func.isRequired,
+  setResponsePageNumber: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  list: state.movies.list
+  list: state.movies.list,
+  movieType: state.movies.movieType,
+  totalPages: state.movies.totalPages,
+  page: state.movies.page
 });
 
-export default connect(mapStateToProps, {})(MainContent);
+export default connect(mapStateToProps, { getMovies, setResponsePageNumber })(MainContent);

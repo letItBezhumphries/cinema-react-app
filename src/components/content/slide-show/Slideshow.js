@@ -63,8 +63,8 @@ const Slideshow = ({ images, auto, showArrows }) => {
     setCurrentIndex(index);
     setState((prev) => ({
       ...prev,
-      slideShow: images[index],
-      slideIndex: index
+      slideIndex: index,
+      slideShow: images[index]
     }));
   };
 
@@ -77,8 +77,8 @@ const Slideshow = ({ images, auto, showArrows }) => {
     );
   };
 
-  const Indicators = (currentSlide) => {
-    // const { currentSlide } = props;
+  const Indicators = (props) => {
+    const { currentSlide } = props;
     const listIndicators = images.map((slide, index) => {
       const btnClasses = index === currentSlide ? 'slider-navButton slider-navButton--active' : 'slider-navButton';
       return <button className={btnClasses} key={index} />;

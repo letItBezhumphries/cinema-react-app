@@ -7,7 +7,7 @@ import MainContent from '../content/main-content/MainContent';
 import Spinner from '../spinner/Spinner';
 
 const Main = (props) => {
-  const { loadMoreMovies, setResponsePageNumber, page, totalPages } = props;
+  const { loadMoreMovies, page, totalPages, setResponsePageNumber, movieType } = props;
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(page);
   const mainRef = useRef();
@@ -22,12 +22,15 @@ const Main = (props) => {
 
   useEffect(() => {
     setResponsePageNumber(currentPage, totalPages);
-    loadMoreMovies('now_playing', currentPage);
-  }, [currentPage]);
+    // eslint-disable-next-line
+  }, [currentPage, totalPages]);
 
   const fetchData = () => {
+    let pageNumber = currentPage;
     if (page < totalPages) {
-      setCurrentPage((prev) => prev + 1);
+      pageNumber += 1;
+      setCurrentPage(pageNumber);
+      loadMoreMovies(movieType, pageNumber);
     }
   };
 
@@ -42,10 +45,12 @@ const Main = (props) => {
   };
 
   return (
-    <div className="main" ref={mainRef} onScroll={() => handleScroll()}>
-      {loading ? <Spinner /> : <MainContent />}
-      <div ref={bottomLineRef}></div>
-    </div>
+    <>
+      <div className="main" ref={mainRef} onScroll={handleScroll}>
+        {loading ? <Spinner /> : <MainContent />}
+        <div ref={bottomLineRef}></div>
+      </div>
+    </>
   );
 };
 
@@ -53,6 +58,7 @@ Main.propTypes = {
   list: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
+  movieType: PropTypes.string.isRequired,
   loadMoreMovies: PropTypes.func.isRequired,
   setResponsePageNumber: PropTypes.func.isRequired
 };
@@ -60,7 +66,8 @@ Main.propTypes = {
 const mapStateToProps = (state) => ({
   list: state.movies.list,
   page: state.movies.page,
-  totalPages: state.movies.totalPages
+  totalPages: state.movies.totalPages,
+  movieType: state.movies.movieType
 });
 
 export default connect(mapStateToProps, {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import PropTypes from 'prop-types';
+
 import './Rating.scss';
 
 const Rating = ({ rating, totalStars, className }) => {
@@ -14,9 +15,9 @@ const Rating = ({ rating, totalStars, className }) => {
     } else {
       percentage = (rating / 10) * 100;
     }
-    const starPercentage = `${Math.floor(percentage)}%`;
-    ratingRef.current.style.width = starPercentage;
-  }, [totalStars, rating]);
+    const startPercentage = `${Math.floor(percentage)}%`;
+    ratingRef.current.style.width = startPercentage;
+  }, [rating, totalStars]);
 
   return (
     <div className="star-rating">
