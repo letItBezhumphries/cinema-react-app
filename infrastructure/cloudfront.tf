@@ -15,10 +15,10 @@ resource "aws_cloudfront_distribution" "cinema_s3_distribution" {
     origin_id   = "default-origin"
   }
 
-  price_class         = "PriceClass_100"
-  is_ipv6_enabled     = true
-  enabled             = true
   retain_on_delete    = true
+  price_class         = "PriceClass_All"
+  enabled             = true
+  is_ipv6_enabled     = true
   default_root_object = "index.html"
 
   default_cache_behavior {
@@ -42,6 +42,13 @@ resource "aws_cloudfront_distribution" "cinema_s3_distribution" {
   custom_error_response {
     error_caching_min_ttl = 300
     error_code            = 404
+    response_code         = 200
+    response_page_path    = "/index.html"
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 300
+    error_code            = 403
     response_code         = 200
     response_page_path    = "/index.html"
   }
