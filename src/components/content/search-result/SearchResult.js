@@ -19,7 +19,6 @@ const SearchResult = (props) => {
 
   const formatMovieTitle = (title) => {
     const titleStr = title.toLowerCase();
-    //  '/ /g' this will find all the empty spaces and the '-' is what will replace the empty space
     return titleStr.replace(/ /g, '-');
   };
 
