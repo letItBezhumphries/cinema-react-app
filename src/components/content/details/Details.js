@@ -16,20 +16,13 @@ const Details = (props) => {
   const { movie, getMovieDetails } = props;
   const { id } = useParams();
   const [details, setDetails] = useState();
-  // const [credits, setCredits] = useState();
-  // const [images, setImages] = useState();
-  // const [videos, setVideos] = useState();
-  // const [reviews, setReviews] = useState();
 
   useEffect(() => {
     if (movie.length === 0) {
       getMovieDetails(id);
     }
     setDetails(movie[0]);
-    // setCredits(movie[1]);
-    // setImages(movie[2]);
-    // setVideos(movie[3]);
-    // setReviews(movie[4]);
+    // eslint-disable-next-line
   }, [id, movie]);
 
   return (
@@ -50,19 +43,19 @@ const Details = (props) => {
             <div className="movie-body">
               <div className="movie-overview">
                 <div className="title">
-                  Avengers <span>12-27-2020</span>
+                  {details.title} <span>{details.release_date}</span>
                 </div>
                 <div className="movie-genres">
                   <ul className="genres">
-                    <li>Action</li>
-                    <li>Comedy</li>
-                    <li>SciFi</li>
+                    {details.genres.map((genre) => (
+                      <li key={genre.id}>{genre.name}</li>
+                    ))}
                   </ul>
                 </div>
                 <div className="rating">
-                  <Rating className="rating-stars" rating={5.5} totalStars={10} />
+                  <Rating className="rating-stars" rating={details.votes_average} totalStars={10} />
                   &nbsp;
-                  <span>5.5</span> <p>(200) reviews</p>
+                  <span>{details.votes_average}</span> <p>({details.vote_count}) reviews</p>
                 </div>
                 <Tabs>
                   <div label="Overview">
@@ -89,7 +82,7 @@ const Details = (props) => {
 
 Details.propTypes = {
   getMovieDetails: PropTypes.func.isRequired,
-  movie: PropTypes.array
+  movie: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
