@@ -38,7 +38,7 @@ export const MOVIE_TRAILERS_URL = async (movieId) => {
   return response;
 };
 
-export const MOVIE_REVIEWS_URL = async (movieId, page) => {
+export const MOVIE_REVIEWS_URL = async (movieId, page = 1) => {
   const response = await axios.get(`${REQUEST_URL}/movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=${page}`);
   return response;
 };
