@@ -8,22 +8,6 @@ resource "aws_s3_bucket" "cinema_app_s3_bucket" {
   acl           = "public-read"
   force_destroy = true
 
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
-  }
-
-  versioning {
-    enabled = true
-  }
-
-  tags = local.common_tags
-}
-
-
-resource "aws_s3_bucket_policy" "cinema_app_s3_bucket_policy" {
-  bucket = aws_s3_bucket.cinema_app_s3_bucket.id
-
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -40,4 +24,15 @@ resource "aws_s3_bucket_policy" "cinema_app_s3_bucket_policy" {
   ]
 }    
 EOF
+
+  website {
+    index_document = "index.html"
+    error_document = "index.html"
+  }
+
+  versioning {
+    enabled = true
+  }
+
+  tags = local.common_tags
 }
