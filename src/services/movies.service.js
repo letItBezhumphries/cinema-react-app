@@ -29,7 +29,7 @@ export const MOVIE_CREDITS_URL = async (movieId) => {
 };
 
 export const MOVIE_IMAGES_URL = async (movieId) => {
-  const response = await axios.get(`${REQUEST_URL}/movie/${movieId}/images?api_key=${API_KEY}&language=en-US`);
+  const response = await axios.get(`${REQUEST_URL}/movie/${movieId}/images?api_key=${API_KEY}&language=en-US&include_image_language=en`);
   return response;
 };
 

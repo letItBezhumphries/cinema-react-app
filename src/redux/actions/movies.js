@@ -64,6 +64,10 @@ export const getMovieDetails = (id) => async (dispatch) => {
   }
 };
 
+export const clearMovieDetails = () => async (dispatch) => {
+  dispatchMethod(CLEAR_MOVIE_DETAILS, [], dispatch);
+};
+
 export const searchQuery = (query) => async (dispatch) => {
   dispatchMethod(SEARCH_QUERY, query, dispatch);
 };

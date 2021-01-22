@@ -3,7 +3,7 @@ import logo from '../../assets/cinema-logo.svg';
 import './Header.scss';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getMovies, setMovieType, setResponsePageNumber, searchQuery, searchResult } from '../../redux/actions/movies';
+import { getMovies, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } from '../../redux/actions/movies';
 import PropTypes from 'prop-types';
 
 const HEADER_LIST = [
@@ -34,7 +34,7 @@ const HEADER_LIST = [
 ];
 
 const Header = (props) => {
-  const { getMovies, setMovieType, page, totalPages, setResponsePageNumber, searchQuery, searchResult } = props;
+  const { getMovies, setMovieType, page, totalPages, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails } = props;
   let [navClass, setNavClass] = useState(false);
   let [menuClass, setMenuClass] = useState(false);
   const [type, setType] = useState('now_playing');
@@ -60,6 +60,7 @@ const Header = (props) => {
   };
 
   const navigateToHomePage = () => {
+    clearMovieDetails();
     history.push('/');
   };
 
@@ -113,7 +114,8 @@ Header.propTypes = {
   page: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   searchQuery: PropTypes.func,
-  searchResult: PropTypes.func
+  searchResult: PropTypes.func,
+  clearMovieDetails: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -121,4 +123,4 @@ const mapStateToProps = (state) => ({
   totalPages: state.movies.totalPages
 });
 
-export default connect(mapStateToProps, { getMovies, setMovieType, setResponsePageNumber, searchQuery, searchResult })(Header);
+export default connect(mapStateToProps, { getMovies, setMovieType, setResponsePageNumber, searchQuery, searchResult, clearMovieDetails })(Header);
