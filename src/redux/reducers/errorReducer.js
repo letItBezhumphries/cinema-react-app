@@ -1,7 +1,11 @@
+import { SET_ERROR } from '../types';
+
 const initialState = '';
 
 export default (state = initialState, action) => {
-  switch ((action.type, action.payload)) {
+  switch (action.type) {
+    case SET_ERROR:
+      return action.payload;
     default:
       return state;
   }
