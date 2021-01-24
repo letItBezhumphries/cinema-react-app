@@ -9,15 +9,17 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  beforeBreadcrumb(breadcrumb, hint) {
-    return breadcrumb.category === 'ui.click' ? null : breadcrumb;
-  },
-  autoSessionTracking: true,
-  integrations: [new Integrations.BrowserTracing()],
-  tracesSampleRate: 1.0
-});
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    beforeBreadcrumb(breadcrumb, hint) {
+      return breadcrumb.category === 'ui.click' ? null : breadcrumb;
+    },
+    autoSessionTracking: true,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: 1.0
+  });
+}
 
 ReactDOM.render(
   <React.StrictMode>
