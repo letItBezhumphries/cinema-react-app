@@ -12,7 +12,7 @@ executors:
     resource_class: small
   terraform-executor:
     docker:
-      - image: "hashicorp/terraform:0.14.3"
+      - image: hashicorp/terraform:0.14.3
   docker-publisher:
     environment:
       IMAGE_NAME: ezhumphries/cinemadb
@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Copy Infrastructure Folder
           command: |
-            cp -r infrastructure artifacts/infrastructure
+            cp -rf infrastructure artifacts/infrastructure
       - persist_to_workspace:
           root: ./
           paths:
@@ -112,7 +112,7 @@ jobs:
       - setup_remote_docker
       - *restore-cache
       - run: docker login -u "${DOCKER_HUB_USER}" -p "${DOCKER_HUB_PASSWORD}"
-      - run: docker build -t ${IMAGE_NAME}:latest .
+      - run: docker build --build-arg REACT_APP_API_SECRET=${REACT_APP_API_SECRET} --build-arg REACT_APP_SENTRY_DSN=${REACT_APP_SENTRY_DSN} -t ${IMAGE_NAME}:latest .
       - run:
           name: Tag and push to docker hub.
           command: |
@@ -338,9 +338,18 @@ workflows:
                 - develop
                 - staging
                 - master
-      - deploy-to-aws-s3:
+      - publish-to-docker-hub:
           requires:
             - terraform-plan-and-apply
+          filters:
+            branches:
+              only:
+                # - develop
+                # - staging
+                - master
+      - deploy-to-aws-s3:
+          requires:
+            - publish-to-docker-hub
           filters:
             branches:
               only:
