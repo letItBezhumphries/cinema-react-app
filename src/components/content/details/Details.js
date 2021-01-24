@@ -1,9 +1,9 @@
 /* eslint multiline-ternary: ["error", "never"] */
-
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getMovieDetails } from '../../../redux/actions/movies';
 import { IMAGE_URL } from '../../../services/movies.service';
+import { pathURL } from '../../../redux/actions/routes';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Details.scss';
@@ -16,7 +16,7 @@ import Media from './media/Media';
 import Crew from './crew/Crew';
 
 const Details = (props) => {
-  const { movie, getMovieDetails } = props;
+  const { movie, getMovieDetails, match, pathURL } = props;
   const { id } = useParams();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,7 @@ const Details = (props) => {
   }, []);
 
   useEffect(() => {
+    pathURL(match.path, match.url);
     if (movie.length === 0) {
       getMovieDetails(id);
     }
@@ -97,11 +98,13 @@ const Details = (props) => {
 
 Details.propTypes = {
   getMovieDetails: PropTypes.func.isRequired,
-  movie: PropTypes.array.isRequired
+  movie: PropTypes.array.isRequired,
+  pathURL: PropTypes.func,
+  match: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
   movie: state.movies.movie
 });
 
-export default connect(mapStateToProps, { getMovieDetails })(Details);
+export default connect(mapStateToProps, { getMovieDetails, pathURL })(Details);
