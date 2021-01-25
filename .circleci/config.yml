@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Copy Infrastructure Folder
           command: |
-            cp -rf infrastructure artifacts/infrastructure
+            cp -r infrastructure artifacts/infrastructure
       - persist_to_workspace:
           root: ./
           paths:
