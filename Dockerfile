@@ -1,5 +1,5 @@
 # Set base image
-FROM node:15.6.0-alpine 
+FROM node:13-alpine 
 
 # use app as the working directory
 WORKDIR /app 
@@ -23,4 +23,4 @@ RUN npm run build
 EXPOSE 3000
 
 # set node server
-ENTRYPOINT [ "npm run start" ]
+ENTRYPOINT npm run start 
