@@ -1,6 +1,4 @@
-# Project Name
-
-Cinema-App
+# Cinema-App
 
 This is just a Frontend project that utilizes The Movie Database Api to view and search movies
 A react app built with redux and deployed to AWS S3 and distributed with AWS cloudfront.
