@@ -14,7 +14,7 @@ This project is really just an exploration of devops practices, where I:
 * Integrated Slack in the CI/CD Pipeline
 * Setup Online Dev, Staging and Production Environments in Github for automatic deployments
 
-<img src="./cinema-app-movie-info.jpg.jpg">
+<img src="./cinema-app-movie-info.jpg">
 <img src="./cinema-app.jpg">
 
 ## Table of Contents
